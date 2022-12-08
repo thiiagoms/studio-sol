@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::controller(PasswordController::class)->name('password.')->group(function () {
+    Route::post('verify', 'validatePassword')->name('verify');
 });
