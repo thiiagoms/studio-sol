@@ -80,7 +80,6 @@ final class PasswordService
         $passwordValidate = false;
 
         foreach ($passwordRules as $key => $rules) {
-
             if ($rules['rule'] === 'minSize') {
                 $minSize = $this->validateMinSize($password, $rules['value']);
                 $minSize === false ? array_push($errors, 'minSize') : null;
