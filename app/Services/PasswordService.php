@@ -4,7 +4,14 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-final class PasswordService
+/**
+ * Password Service package - Validations
+ *
+ * @package App\Services
+ * @author  Thiago Silva <thiagom.devsec@gmail.com>
+ * @version 1.0
+ */
+class PasswordService
 {
     private function validateMinSize(string $password, int $minLength): bool
     {
@@ -22,6 +29,13 @@ final class PasswordService
         // TODO
     }
 
+    /**
+     * Check if password contains the minimum special characters
+     *
+     * @param string $password
+     * @param int $minSpecialChars
+     * @return boolean
+     */
     private function validatMinSpecialChars(string $password, int $minSpecialChars): bool
     {
         $specialChars = preg_match_all('![^A-z0-9]!i', $password);
@@ -57,7 +71,7 @@ final class PasswordService
      * Min numeric digits in password
      *
      * @param string $password
-     * @param integer $minDigit
+     * @param int $minDigit
      * @return void
      */
     private function minDigit(string $password, int $minDigit)
@@ -73,13 +87,19 @@ final class PasswordService
         return $count >= $minDigit ? true : false;
     }
 
+    /**
+     * Make password validation
+     *
+     * @param string $password
+     * @param array $passwordRules
+     * @return array
+     */
     final public function validatePassword(string $password, array $passwordRules): array
     {
         $errors = [];
 
-        $passwordValidate = false;
+        foreach ($passwordRules as $rules) {
 
-        foreach ($passwordRules as $key => $rules) {
             if ($rules['rule'] === 'minSize') {
                 $minSize = $this->validateMinSize($password, $rules['value']);
                 $minSize === false ? array_push($errors, 'minSize') : null;
@@ -102,8 +122,8 @@ final class PasswordService
         }
 
         return [
-            'verify' => $passwordValidate != false ? true : false,
-            'noMatch' => $errors
+            'verify' => true,
+            'noMatch' => $errors,
         ];
     }
 }
